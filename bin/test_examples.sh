@@ -4,14 +4,16 @@ CURRENT_DIR=`pwd`
 
 for example in $(ls examples/)
 do
-    echo "---------------------------------------------------------------------------------"
-    echo " Building: $example"
-    echo "---------------------------------------------------------------------------------"
-
     example_dir="examples/$example/"
 
-    cp Makefile _Makefile.master "$example_dir"
-    cd "$example_dir"
-    make
-    cd "$CURRENT_DIR"
+    if [ -d "$example_dir" ] ; then
+        echo "---------------------------------------------------------------------------------"
+        echo " Building: $example"
+        echo "---------------------------------------------------------------------------------"
+
+        cp examples/Makefile examples/_Makefile.master "$example_dir"
+        cd "$example_dir"
+        make
+        cd "$CURRENT_DIR"
+    fi
 done
