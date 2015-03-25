@@ -42,7 +42,7 @@ String String::substring(int start)
 
 String String::substring(int start, int end)
 {
-  return String(substr(start, end));
+  return String(substr(start, end - start));
 }
 
 int String::indexOf(String str)
@@ -111,7 +111,7 @@ void HardwareSerial::shouldRespondWith(std::string message)
 
 bool HardwareSerial::hasSent(std::string message)
 {
-  return in_.find(message) != std::string::npos;
+  return 0 == in_.compare(message);
 }
 
 void HardwareSerial::flushBuffer()

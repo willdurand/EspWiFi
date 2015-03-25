@@ -130,7 +130,7 @@ bool EspWiFi::listen(int port)
   return true;
 }
 
-String EspWiFi::read(unsigned int mux_id, int length, unsigned long timeout)
+String EspWiFi::read(unsigned int & mux_id, int & length, unsigned long timeout)
 {
   String data;
 
@@ -159,7 +159,7 @@ String EspWiFi::read(unsigned int mux_id, int length, unsigned long timeout)
 
   if (data.startsWith("+IPD,")) {
     // request: +IPD,ch,len:data
-    sscanf(data.substring(5, data.indexOf(":")).c_str(), "%d,%d", &mux_id, &length);
+    sscanf(data.substring(5, data.indexOf(":")).c_str(), "%d,%d", & mux_id, & length);
     data = data.substring(data.indexOf(":") + 1);
 
     t = millis();
@@ -168,6 +168,13 @@ String EspWiFi::read(unsigned int mux_id, int length, unsigned long timeout)
         c = serial_->read();
         data += c;
       }
+    }
+
+    data = data.substring(0, length);
+
+    // empty buffer
+    while (serial_->available()) {
+      serial_->read();
     }
 
     return data;
