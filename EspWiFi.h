@@ -54,7 +54,7 @@ class EspWiFi
      * Read incoming data from the TCP server and return them. Note that
      * `mux_id` and `length` are updated with the right values.
      */
-    String read(unsigned int & mux_id, int &length, unsigned long timeout = 2000);
+    String read(unsigned int & mux_id, unsigned int & length, unsigned long timeout = 2000);
     /**
      * Send data to a TCP channel (`mux_id`).
      */

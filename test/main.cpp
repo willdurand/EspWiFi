@@ -48,8 +48,7 @@ TEST_CASE("close()")
 
 TEST_CASE("read()")
 {
-  unsigned int mux_id = 0;
-  int len = 0;
+  unsigned int mux_id = 0, len = 0;
 
   serial.shouldRespondWith("+IPD,123,16:babar is awesome");
 
@@ -62,8 +61,7 @@ TEST_CASE("read()")
 
 TEST_CASE("read() empty content")
 {
-  unsigned int mux_id = 0;
-  int len = 0;
+  unsigned int mux_id = 0, len = 0;
 
   serial.shouldRespondWith("+IPD,123,0:<this should not be taken into account>");
 
