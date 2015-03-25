@@ -5,8 +5,12 @@
 #ifndef SOFTWARE_SERIAL_H
 #define SOFTWARE_SERIAL_H
 
+class String;
+
 class SoftwareSerial
 {
+  public:
+    void println(String data) {}
 };
 
 #endif

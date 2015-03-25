@@ -12,7 +12,7 @@ EspWiFi::EspWiFi(
   HardwareSerial & serial,
   const unsigned int resetPin,
   const unsigned long baud
-) : serial_(& serial), resetPin_(resetPin), baud_(baud), begun_(false)
+) : serial(& serial), resetPin(resetPin), baud(baud), begun(false)
 {
 }
 
@@ -22,33 +22,33 @@ EspWiFi::EspWiFi(
   const unsigned int resetPin,
   SoftwareSerial & debug,
   const unsigned long baud
-) :  serial_(& serial), resetPin_(resetPin), debug_(& debug), baud_(baud), begun_(false)
+) :  serial(& serial), resetPin(resetPin), debugSerial(& debug), baud(baud), begun(false)
 {
 }
 #endif
 
 void EspWiFi::begin()
 {
-  serial_->begin(baud_);
+  serial->begin(baud);
 
-  serial_->println(F("AT"));
+  serial->println(F("AT"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT");
     return;
   }
 
-  begun_ = true;
+  begun = true;
 }
 
 bool EspWiFi::connect(String ssid, String password)
 {
-  if (! begun_) {
+  if (! begun) {
     begin();
   }
 
   // 1 = client
-  serial_->println(F("AT+CWMODE=1"));
+  serial->println(F("AT+CWMODE=1"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWMODE");
@@ -60,14 +60,14 @@ bool EspWiFi::connect(String ssid, String password)
     return false;
   }
 
-  serial_->println(F("AT+CWJAP?"));
+  serial->println(F("AT+CWJAP?"));
 
   if (! check_esp_response(1000, ssid)) {
-    serial_->print(F("AT+CWJAP=\""));
-    serial_->print(ssid);
-    serial_->print(F("\",\""));
-    serial_->print(password);
-    serial_->println(F("\""));
+    serial->print(F("AT+CWJAP=\""));
+    serial->print(ssid);
+    serial->print(F("\",\""));
+    serial->print(password);
+    serial->println(F("\""));
 
     if (! check_esp_response(5000, F("OK"))) {
       debug("Error AT+CWJAP");
@@ -80,12 +80,12 @@ bool EspWiFi::connect(String ssid, String password)
 
 bool EspWiFi::startAccessPoint(String ssid, String password)
 {
-  if (! begun_) {
+  if (! begun) {
     begin();
   }
 
   // 3 = client + AP
-  serial_->println(F("AT+CWMODE=3"));
+  serial->println(F("AT+CWMODE=3"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWMODE");
@@ -97,11 +97,11 @@ bool EspWiFi::startAccessPoint(String ssid, String password)
     return false;
   }
 
-  serial_->print(F("AT+CWSAP=\""));
-  serial_->print(ssid);
-  serial_->print(F("\",\""));
-  serial_->print(password);
-  serial_->println(F("\",3,0"));
+  serial->print(F("AT+CWSAP=\""));
+  serial->print(ssid);
+  serial->print(F("\",\""));
+  serial->print(password);
+  serial->println(F("\",3,0"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWSAP");
@@ -113,15 +113,15 @@ bool EspWiFi::startAccessPoint(String ssid, String password)
 
 bool EspWiFi::listen(int port)
 {
-  serial_->println(F("AT+CIPMUX=1"));
+  serial->println(F("AT+CIPMUX=1"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CIPMUX");
     return false;
   }
 
-  serial_->print(F("AT+CIPSERVER=1,"));
-  serial_->println(port);
+  serial->print(F("AT+CIPSERVER=1,"));
+  serial->println(port);
 
   if (! check_esp_response(1000, F("OK"), F("no change"))) {
     debug("Error AT+CIPSERVER");
@@ -140,8 +140,8 @@ String EspWiFi::read(unsigned int & mux_id, unsigned int & length, unsigned long
 
   char c;
   while (millis() - t < timeout) {
-    if (serial_->available()) {
-      c = serial_->read();
+    if (serial->available()) {
+      c = serial->read();
 
       if (c == '\n' && isBlank) {
         break;
@@ -165,8 +165,8 @@ String EspWiFi::read(unsigned int & mux_id, unsigned int & length, unsigned long
 
     t = millis();
     while (data.length() < length && millis() - t < timeout) {
-      if (serial_->available()) {
-        c = serial_->read();
+      if (serial->available()) {
+        c = serial->read();
         data += c;
       }
     }
@@ -174,8 +174,8 @@ String EspWiFi::read(unsigned int & mux_id, unsigned int & length, unsigned long
     data = data.substring(0, length);
 
     // empty buffer
-    while (serial_->available()) {
-      serial_->read();
+    while (serial->available()) {
+      serial->read();
     }
 
     return data;
@@ -186,13 +186,13 @@ String EspWiFi::read(unsigned int & mux_id, unsigned int & length, unsigned long
 
 bool EspWiFi::write(const unsigned int mux_id, String data)
 {
-  serial_->print(F("AT+CIPSEND="));
-  serial_->print(mux_id);
-  serial_->print(",");
-  serial_->println(data.length());
+  serial->print(F("AT+CIPSEND="));
+  serial->print(mux_id);
+  serial->print(",");
+  serial->println(data.length());
 
   if (check_esp_response(2000, F(">"))) {
-    serial_->print(data);
+    serial->print(data);
 
     return check_esp_response(1000, F("SEND OK"));
   }
@@ -202,21 +202,21 @@ bool EspWiFi::write(const unsigned int mux_id, String data)
 
 bool EspWiFi::close(const unsigned int mux_id)
 {
-  serial_->print(F("AT+CIPCLOSE="));
-  serial_->println(mux_id);
+  serial->print(F("AT+CIPCLOSE="));
+  serial->println(mux_id);
 
   return check_esp_response(1000, F("OK"));
 }
 
 void EspWiFi::end()
 {
-  serial_->end();
-  begun_ = false;
+  serial->end();
+  begun = false;
 }
 
 bool EspWiFi::reset()
 {
-  serial_->println(F("AT+RST"));
+  serial->println(F("AT+RST"));
 
   if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+RST");
@@ -225,7 +225,7 @@ bool EspWiFi::reset()
 
   unsigned long t = millis();
   while (millis() - t < 10000) {
-    serial_->println(F("AT"));
+    serial->println(F("AT"));
 
     if (check_esp_response(1000, F("OK"))) {
       delay(1000);
@@ -242,9 +242,9 @@ void EspWiFi::hardReset()
 {
   end();
 
-  digitalWrite(resetPin_, LOW);
+  digitalWrite(resetPin, LOW);
   delay(1000);
-  digitalWrite(resetPin_, HIGH);
+  digitalWrite(resetPin, HIGH);
   delay(3000);
 }
 
@@ -256,8 +256,8 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response)
   unsigned long t = millis();
 
   while (millis() - t < timeout) {
-    if (serial_->available() > 0) {
-      c = serial_->read();
+    if (serial->available() > 0) {
+      c = serial->read();
       buffer += c;
 
       if (buffer.indexOf(response) != -1 || buffer.equals(response)) {
@@ -268,8 +268,8 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response)
     }
   }
 
-  while(serial_->available() > 0) {
-    c = serial_->read();
+  while(serial->available() > 0) {
+    c = serial->read();
     buffer += c;
   }
 
@@ -286,8 +286,8 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response, String 
   unsigned long t = millis();
 
   while (millis() - t < timeout) {
-    if (serial_->available() > 0) {
-      c = serial_->read();
+    if (serial->available() > 0) {
+      c = serial->read();
       buffer += c;
 
       if (buffer.indexOf(response) != -1 || buffer.equals(response)
@@ -299,8 +299,8 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response, String 
     }
   }
 
-  while(serial_->available() > 0) {
-    c = serial_->read();
+  while(serial->available() > 0) {
+    c = serial->read();
     buffer += c;
   }
 
@@ -312,7 +312,7 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response, String 
 void EspWiFi::debug(String content)
 {
 #ifdef DEBUG
-  debug_->println(content);
+  debugSerial->println(content);
   delay(100);
 #endif
 }
