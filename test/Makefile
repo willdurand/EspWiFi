@@ -1,7 +1,7 @@
 TARGET   = main
 CXX      = g++
 INCLUDES = -I./mock
-CPPFLAGS = -Wall -pedantic -std=c++11
+CPPFLAGS = -Wall -pedantic
 LDFLAGS  =
 
 .PHONY: default clean test
