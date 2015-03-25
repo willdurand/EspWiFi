@@ -40,7 +40,7 @@ class EspWiFi
     SoftwareSerial *debug_;
 #endif
 
-    bool check_esp_response(unsigned long timeout, String response = "OK");
+    bool check_esp_response(unsigned long timeout, String response);
     bool check_esp_response(unsigned long timeout, String response, String altResponse);
 
     void debug(String content);

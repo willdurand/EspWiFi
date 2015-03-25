@@ -19,7 +19,7 @@ void EspWiFi::begin()
 
   serial_->println(F("AT"));
 
-  if (! check_esp_response(1000)) {
+  if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT");
     return;
   }
@@ -36,7 +36,7 @@ bool EspWiFi::connect(String ssid, String password)
   // 1 = client
   serial_->println(F("AT+CWMODE=1"));
 
-  if (! check_esp_response(1000)) {
+  if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWMODE");
     return false;
   }
@@ -55,7 +55,7 @@ bool EspWiFi::connect(String ssid, String password)
     serial_->print(password);
     serial_->println(F("\""));
 
-    if (! check_esp_response(5000)) {
+    if (! check_esp_response(5000, F("OK"))) {
       debug("Error AT+CWJAP");
       return false;
     }
@@ -73,7 +73,7 @@ bool EspWiFi::startAccessPoint(String ssid, String password)
   // 3 = client + AP
   serial_->println(F("AT+CWMODE=3"));
 
-  if (! check_esp_response(1000)) {
+  if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWMODE");
     return false;
   }
@@ -89,7 +89,7 @@ bool EspWiFi::startAccessPoint(String ssid, String password)
   serial_->print(password);
   serial_->println(F("\",3,0"));
 
-  if (! check_esp_response(1000)) {
+  if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CWSAP");
     return false;
   }
@@ -101,7 +101,7 @@ bool EspWiFi::listen(int port)
 {
   serial_->println(F("AT+CIPMUX=1"));
 
-  if (! check_esp_response(1000)) {
+  if (! check_esp_response(1000, F("OK"))) {
     debug("Error AT+CIPMUX");
     return false;
   }
@@ -184,7 +184,7 @@ bool EspWiFi::close(const unsigned int mux_id)
   serial_->print(F("AT+CIPCLOSE="));
   serial_->println(mux_id);
 
-  return check_esp_response(1000);
+  return check_esp_response(1000, F("OK"));
 }
 
 void EspWiFi::end()
@@ -206,7 +206,7 @@ bool EspWiFi::reset()
   while (millis() - t < 10000) {
     serial_->println(F("AT"));
 
-    if (check_esp_response(1000)) {
+    if (check_esp_response(1000, F("OK"))) {
       delay(1000);
       return true;
     }
