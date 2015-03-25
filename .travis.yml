@@ -1,9 +1,10 @@
 language: cpp
+sudo: false
 
 install:
     - wget http://downloads.arduino.cc/arduino-1.6.1-linux64.tar.xz
     - tar -xf arduino-1.6.1-linux64.tar.xz
-    - sudo mv arduino-1.6.1/ /opt/Arduino
+    - export ARD_HOME="`pwd`/arduino-1.6.1/"
 
 script:
     - make debug=1
