@@ -15,4 +15,5 @@ install:
 
 script:
     - make debug=1
+    - ./bin/test_examples.sh
     - cd test/ ; make && make test
