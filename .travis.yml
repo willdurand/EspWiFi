@@ -14,5 +14,5 @@ install:
     - sudo mv arduino-1.6.1/ /opt/Arduino
 
 script:
-    #- make debug=1
+    - make debug=1
     - cd test/ ; make && make test
