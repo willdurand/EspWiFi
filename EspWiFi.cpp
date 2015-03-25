@@ -268,7 +268,7 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response)
     }
   }
 
-  while(serial->available() > 0) {
+  while (serial->available() > 0) {
     c = serial->read();
     buffer += c;
   }
@@ -299,7 +299,7 @@ bool EspWiFi::check_esp_response(unsigned long timeout, String response, String 
     }
   }
 
-  while(serial->available() > 0) {
+  while (serial->available() > 0) {
     c = serial->read();
     buffer += c;
   }
