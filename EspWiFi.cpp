@@ -7,10 +7,19 @@
 
 #include "EspWiFi.h"
 
-EspWiFi::EspWiFi(HardwareSerial & serial, const unsigned int resetPin, const unsigned long baud) : serial_(& serial), resetPin_(resetPin), baud_(baud) {}
+EspWiFi::EspWiFi(
+  HardwareSerial & serial,
+  const unsigned int resetPin,
+  const unsigned long baud
+) : serial_(& serial), resetPin_(resetPin), baud_(baud) {}
 
 #ifdef DEBUG
-EspWiFi::EspWiFi(HardwareSerial & serial, const unsigned int resetPin, SoftwareSerial & debug, const unsigned long baud) :  serial_(& serial), resetPin_(resetPin), debug_(& debug), baud_(baud) {}
+EspWiFi::EspWiFi(
+  HardwareSerial & serial,
+  const unsigned int resetPin,
+  SoftwareSerial & debug,
+  const unsigned long baud
+) :  serial_(& serial), resetPin_(resetPin), debug_(& debug), baud_(baud) {}
 #endif
 
 void EspWiFi::begin()
@@ -24,12 +33,12 @@ void EspWiFi::begin()
     return;
   }
 
-  hasBegun_ = true;
+  begun_ = true;
 }
 
 bool EspWiFi::connect(String ssid, String password)
 {
-  if (! hasBegun_) {
+  if (! begun_) {
     begin();
   }
 
@@ -66,7 +75,7 @@ bool EspWiFi::connect(String ssid, String password)
 
 bool EspWiFi::startAccessPoint(String ssid, String password)
 {
-  if (! hasBegun_) {
+  if (! begun_) {
     begin();
   }
 
@@ -190,7 +199,7 @@ bool EspWiFi::close(const unsigned int mux_id)
 void EspWiFi::end()
 {
   serial_->end();
-  hasBegun_ = false;
+  begun_ = false;
 }
 
 bool EspWiFi::reset()

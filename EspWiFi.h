@@ -66,7 +66,7 @@ class EspWiFi
     bool close(const unsigned int mux_id);
 
   private:
-    bool hasBegun_ = false;
+    bool begun_ = false;
     const unsigned long baud_;
     const unsigned int resetPin_;
     HardwareSerial *serial_;
