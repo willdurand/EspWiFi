@@ -66,13 +66,13 @@ class EspWiFi
     bool close(const unsigned int mux_id);
 
   private:
-    bool begun_ = false;
-    const unsigned long baud_;
-    const unsigned int resetPin_;
     HardwareSerial *serial_;
+    const unsigned int resetPin_;
 #ifdef DEBUG
     SoftwareSerial *debug_;
 #endif
+    const unsigned long baud_;
+    bool begun_;
 
     bool check_esp_response(unsigned long timeout, String response);
     bool check_esp_response(unsigned long timeout, String response, String altResponse);

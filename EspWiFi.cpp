@@ -11,7 +11,9 @@ EspWiFi::EspWiFi(
   HardwareSerial & serial,
   const unsigned int resetPin,
   const unsigned long baud
-) : serial_(& serial), resetPin_(resetPin), baud_(baud) {}
+) : serial_(& serial), resetPin_(resetPin), baud_(baud), begun_(false)
+{
+}
 
 #ifdef DEBUG
 EspWiFi::EspWiFi(
@@ -19,7 +21,9 @@ EspWiFi::EspWiFi(
   const unsigned int resetPin,
   SoftwareSerial & debug,
   const unsigned long baud
-) :  serial_(& serial), resetPin_(resetPin), debug_(& debug), baud_(baud) {}
+) :  serial_(& serial), resetPin_(resetPin), debug_(& debug), baud_(baud), begun_(false)
+{
+}
 #endif
 
 void EspWiFi::begin()
