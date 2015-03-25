@@ -855,7 +855,7 @@ define run-ccxxino
 endef
 
 define run-cxxskt
-    $(MAKE_QUIET_BUILD)$(subst _aDjOkT_,.,$(subst _aEjXkT_,-std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration -Wa$(comma)-adhlns=$(@D)/$*.lst,$(GO_CPP_O)))
+    $(MAKE_QUIET_BUILD)$(subst _aDjOkT_,.,$(subst _aEjXkT_,-std=gnu99 -Wa$(comma)-adhlns=$(@D)/$*.lst,$(GO_CPP_O)))
 endef
 
 define run-cccskt
