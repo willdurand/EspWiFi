@@ -2,7 +2,7 @@ language: cpp
 
 install:
     - wget http://downloads.arduino.cc/arduino-1.6.1-linux64.tar.xz
-    - tar -xvf arduino-1.6.1-linux64.tar.xz
+    - tar -xf arduino-1.6.1-linux64.tar.xz
     - sudo mv arduino-1.6.1/ /opt/Arduino/arduino
 
 script: make
