@@ -9,7 +9,10 @@
 
 class String;
 class HardwareSerial;
+
+#ifdef DEBUG
 class SoftwareSerial;
+#endif
 
 class EspWiFi
 {
@@ -54,7 +57,7 @@ class EspWiFi
      * Read incoming data from the TCP server and return them. Note that
      * `mux_id` and `length` are updated with the right values.
      */
-    String read(unsigned int mux_id, int length, unsigned long timeout = 2000);
+    String read(unsigned int & mux_id, unsigned int & length, unsigned long timeout = 2000);
     /**
      * Send data to a TCP channel (`mux_id`).
      */
@@ -66,13 +69,13 @@ class EspWiFi
     bool close(const unsigned int mux_id);
 
   private:
-    bool begun_ = false;
-    const unsigned long baud_;
-    const unsigned int resetPin_;
-    HardwareSerial *serial_;
+    HardwareSerial *serial;
+    const unsigned int resetPin;
 #ifdef DEBUG
-    SoftwareSerial *debug_;
+    SoftwareSerial *debugSerial;
 #endif
+    const unsigned long baud;
+    bool begun;
 
     bool check_esp_response(unsigned long timeout, String response);
     bool check_esp_response(unsigned long timeout, String response, String altResponse);
