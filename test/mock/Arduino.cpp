@@ -70,7 +70,7 @@ void HardwareSerial::begin(unsigned long baud)
 
 int HardwareSerial::available()
 {
-  return out_.length() - pos_;
+  return out.length() - pos;
 }
 
 void HardwareSerial::end()
@@ -79,12 +79,12 @@ void HardwareSerial::end()
 
 char HardwareSerial::read()
 {
-  return out_.at(pos_++);
+  return out.at(pos++);
 }
 
 void HardwareSerial::print(String data)
 {
-  in_.append(data);
+  in.append(data);
 }
 
 void HardwareSerial::print(const int data)
@@ -94,8 +94,8 @@ void HardwareSerial::print(const int data)
 
 void HardwareSerial::println(String data)
 {
-  in_.append(data);
-  in_.append("\r\n");
+  in.append(data);
+  in.append("\r\n");
 }
 
 void HardwareSerial::println(const int data)
@@ -105,16 +105,16 @@ void HardwareSerial::println(const int data)
 
 void HardwareSerial::shouldRespondWith(std::string message)
 {
-  out_ = message;
-  pos_ = 0;
+  out = message;
+  pos = 0;
 }
 
 bool HardwareSerial::hasSent(std::string message)
 {
-  return 0 == in_.compare(message);
+  return 0 == in.compare(message);
 }
 
 void HardwareSerial::flushBuffer()
 {
-  in_.clear();
+  in.clear();
 }

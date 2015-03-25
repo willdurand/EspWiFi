@@ -51,9 +51,9 @@ class HardwareSerial
     void flushBuffer();
 
   private:
-    std::string in_;
-    std::string out_;
-    int pos_;
+    std::string in;
+    std::string out;
+    int pos;
 };
 
 #endif
