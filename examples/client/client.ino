@@ -12,6 +12,7 @@ EspWiFi wifi(Serial, RESET_PIN);
 
 void setup() {
   pinMode(RESET_PIN, OUTPUT);
+  digitalWrite(RESET_PIN, HIGH); // active low
   
   if (wifi.connect(SSID, PASSWORD)) {
     if (! wifi.listen(TCP_PORT)) {
