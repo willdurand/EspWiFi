@@ -3,7 +3,6 @@ EspWiFi
 
 [![Build
 Status](https://travis-ci.org/willdurand/EspWiFi.svg?branch=master)](https://travis-ci.org/willdurand/EspWiFi)
-
 [![Build
 Status](https://webapi.biicode.com/v1/badges/willdurand/willdurand/EspWiFi/master)](https://www.biicode.com/willdurand/EspWiFi)
 
