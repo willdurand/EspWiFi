@@ -9,7 +9,6 @@
 
 class String;
 class HardwareSerial;
-
 #ifdef DEBUG
 class SoftwareSerial;
 #endif

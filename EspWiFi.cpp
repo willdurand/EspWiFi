@@ -2,14 +2,13 @@
 /*
  * EspEspWiFi - William Durand <will@drnd.me> - MIT License
  */
+#include "EspWiFi.h"
+
 #include <Arduino.h>
 #include <stdio.h>
-
 #ifdef DEBUG
 #include <SoftwareSerial.h>
 #endif
-
-#include "EspWiFi.h"
 
 EspWiFi::EspWiFi(
   HardwareSerial & serial,
